@@ -18,6 +18,25 @@
       </c:when>
       <c:otherwise>
 
+        <div class="w-75 mx-auto mt-sm-4 mt-md-5">
+          <form id="form" action="index" method="get" class="d-flex">
+            <select name="type" class="form-select form-select-sm w-25" aria-label=".form-select-sm example">
+              <option value="">
+                <c:out value="all entries" />
+              </option>
+              <c:forEach var="employee" items="${employees}">
+                <option value="${employee.getDepartment().getId()}">
+                  <c:out value="${employee.getDepartment().getName()}" />
+                </option>
+              </c:forEach>
+            </select>
+
+            <button  class="btn btn-dark ml-5"  type="submit">select</button>
+          </form>
+
+        </div>
+
+
         <table class="table table-hover w-75 mx-auto mt-sm-4 mt-md-5">
           <tr border="1px solid black">
             <th>ID</th>
