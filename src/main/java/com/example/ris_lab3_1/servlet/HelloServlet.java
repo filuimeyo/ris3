@@ -17,7 +17,15 @@ public class HelloServlet extends HttpServlet {
     private EmployeeService employeeService;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.setAttribute("employees", employeeService.getEmployees());
+
+        String departmentId = request.getParameter("departmentId");
+        if ( departmentId!= null && !departmentId.isEmpty()) {
+            request.setAttribute("employees",
+                    employeeService.getEmployees(Long.parseLong(departmentId)));
+
+        } else  request.setAttribute("employees", employeeService.getEmployees());
+        request.setAttribute("departments", employeeService.getDepartments());
+        request.setAttribute("departmentId", departmentId);
         getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
 

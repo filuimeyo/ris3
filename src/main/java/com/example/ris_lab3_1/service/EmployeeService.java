@@ -1,6 +1,7 @@
 package com.example.ris_lab3_1.service;
 
 
+import com.example.ris_lab3_1.entity.Department;
 import com.example.ris_lab3_1.entity.Employee;
 import jakarta.ejb.Stateful;
 import jakarta.ejb.Stateless;
@@ -24,36 +25,15 @@ public class EmployeeService {
                 .getResultList();
     }
 
-    public List<Employee> getEmployees(Integer departmentId) {
-        String queryString = "SELECT e FROM Employee e WHERE e.department = :departmentId";
-
-        return entityManager.createQuery(queryString, Employee.class)
-                .setParameter("departmentId", departmentId)
+    public List<Department> getDepartments() {
+        return entityManager.createQuery("SELECT d from Department d", Department.class)
                 .getResultList();
     }
 
-    public List<Employee> getEmployees(String name){
-
-        name = "%" + name + "%";
-
-        String queryString = "SELECT e FROM Employee e " +
-                "WHERE e.firstName LIKE :name OR  e.lastName LIKE :name";
+    public List<Employee> getEmployees(Long departmentId) {
+        String queryString = "SELECT e FROM Employee e WHERE e.department.id = :departmentId";
 
         return entityManager.createQuery(queryString, Employee.class)
-                .setParameter("name", name)
-                .getResultList();
-    }
-
-    public List<Employee> getEmployees(String name, Integer departmentId){
-
-        name = "%" + name + "%";
-
-        String queryString = "SELECT e FROM Employee e " +
-                "WHERE e.firstName LIKE :name OR  e.lastName LIKE : name " +
-                "AND e.department = :departmentId ";
-
-        return entityManager.createQuery(queryString, Employee.class)
-                .setParameter("name", name)
                 .setParameter("departmentId", departmentId)
                 .getResultList();
     }

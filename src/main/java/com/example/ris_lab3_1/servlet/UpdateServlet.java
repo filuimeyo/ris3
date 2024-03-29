@@ -1,5 +1,6 @@
 package com.example.ris_lab3_1.servlet;
 
+import com.example.ris_lab3_1.entity.Department;
 import com.example.ris_lab3_1.entity.Employee;
 import com.example.ris_lab3_1.service.EmployeeService;
 import jakarta.ejb.EJB;
@@ -21,8 +22,12 @@ public class UpdateServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String id = request.getParameter("id");
         if (id != null && !id.isEmpty()) {
-            request.setAttribute("employee", employeeService.getEmployee(Long.parseLong(id)));
+            Employee employee = employeeService.getEmployee(Long.parseLong(id));
+            request.setAttribute("employee", employee);
+            request.setAttribute("departmentId", employee.getDepartment().getId());
         }
+
+        request.setAttribute("departments", employeeService.getDepartments());
         getServletContext().getRequestDispatcher("/update.jsp").forward(request, response);
     }
 
@@ -32,6 +37,12 @@ public class UpdateServlet extends HttpServlet {
                 .firstName(req.getParameter("first"))
                 .lastName(req.getParameter("last"))
                 .salary(Double.parseDouble(req.getParameter("salary")))
+                .department(
+                        Department
+                                .builder()
+                                .id(Long.parseLong(req.getParameter("department")))
+                                .build()
+                )
                 .build();
 
         String id = req.getParameter("id");

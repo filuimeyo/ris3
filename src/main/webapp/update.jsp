@@ -72,6 +72,29 @@
         >
     </div>
 
+
+    <div class="form-group">
+        <label>Choose department</label>
+        <select name="department"
+                class="form-select form-select-sm"
+                aria-label=".form-select-sm example"
+                required
+        >
+            <c:forEach var="department" items="${departments}">
+                <option value="${department.getId()}"
+
+                        <c:if test="${not empty departmentId and department.getId() eq departmentId}">
+                            selected
+                        </c:if>
+                >
+                        <c:out value="${department.getName()}" />
+                </option>
+            </c:forEach>
+
+        </select>
+
+    </div>
+
     <button type="submit"  class=" mt-sm-4 mt-md-5 btn btn-dark">Save</button>
 
     <c:if test="${not empty param}">
